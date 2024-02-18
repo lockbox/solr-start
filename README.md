@@ -2,6 +2,8 @@
 
 Template repo to manage local solr instance for indexing documents and websites.
 
+By default the solr instance is running in [schemaless](https://solr.apache.org/guide/solr/latest/indexing-guide/schemaless-mode.html) mode.
+
 ## Quickstart
 
 ```bash
