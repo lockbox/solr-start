@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  solr:
+    image: solr
+    ports:
+     - "8983:8983"
+    volumes:
+      # solr runtime data
+      - ./.solrdata:/var/solr
+      # solr node boot config
+      - ./configuration/solr.in.sh:/etc/default/solr.in.sh:ro
+      # solr configset to use, intentionally not `ro` since
+      # it is possible to have a mutable schema which requires
+      # the ability to write back to the configset
+      - ./configuration/solr:/solr_config_set/
+      # local data to index automatically
+      - ./local_data:/initial_data:ro
+      # scripts to run after solr server is initialized
+      - ./initdb.d:/initdb.d:ro
+      # scripts to run before solr server starts
+      - ./docker-entrypoint.d:/docker-entrypoint-initdb.d:ro
+    command:
+      - solr-precreate
+      - data-store
+      - /solr_config_set/
